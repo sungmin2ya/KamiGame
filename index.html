@@ -94,11 +94,19 @@ shootBtn.addEventListener('touchstart', (e) => {
 shootBtn.addEventListener('touchstart', () => shoot());
 
 function updatePlayer() {
+  const buttonHeight = 120; // 버튼 높이 고려 (px 단위)
+
   if ((keys['ArrowLeft'] || leftPressed) && player.x > 0) {
     player.x -= player.speed;
   }
   if ((keys['ArrowRight'] || rightPressed) && player.x < canvas.width - player.width) {
     player.x += player.speed;
+  }
+
+  // ✅ 플레이어가 하단 버튼보다 아래로 안 내려가게
+  const maxY = canvas.height - buttonHeight - player.height;
+  if (player.y > maxY) {
+    player.y = maxY;
   }
 }
 
