@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
   <title>연어와 프렌냥 먹는 까미</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -24,22 +24,26 @@
       margin: 1rem 0;
     }
   #controls {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-top: 1rem;
-  }
-  .btn {
-    background: white;
-    color: black;
-    font-size: 1.2rem;
-    padding: 0.8rem 1.5rem;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    user-select: none;
-  }
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  z-index: 999;
+}
+.btn {
+  background: white;
+  color: black;
+  font-size: 2rem;
+  padding: 1rem 1.5rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  user-select: none;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
 
   </style>
 </head>
@@ -54,19 +58,37 @@
 </div>
 
   <script>
-// 모바일 조작
+// 모바일용 버튼 변수
 const leftBtn = document.getElementById('leftBtn');
 const rightBtn = document.getElementById('rightBtn');
 const shootBtn = document.getElementById('shootBtn');
 
-// 좌우 이동 누르고 있을 때 이동되도록 처리
+// 눌림 상태 저장 변수
 let leftPressed = false;
 let rightPressed = false;
 
-leftBtn.addEventListener('touchstart', () => leftPressed = true);
-leftBtn.addEventListener('touchend', () => leftPressed = false);
-rightBtn.addEventListener('touchstart', () => rightPressed = true);
-rightBtn.addEventListener('touchend', () => rightPressed = false);
+// 터치 이벤트 등록
+leftBtn.addEventListener('touchstart', (e) => {
+  e.preventDefault();
+  leftPressed = true;
+});
+leftBtn.addEventListener('touchend', (e) => {
+  e.preventDefault();
+  leftPressed = false;
+});
+rightBtn.addEventListener('touchstart', (e) => {
+  e.preventDefault();
+  rightPressed = true;
+});
+rightBtn.addEventListener('touchend', (e) => {
+  e.preventDefault();
+  rightPressed = false;
+});
+shootBtn.addEventListener('touchstart', (e) => {
+  e.preventDefault();
+  shoot();
+});
+
 
 // 발사 버튼 터치
 shootBtn.addEventListener('touchstart', () => shoot());
@@ -145,14 +167,6 @@ function updatePlayer() {
       }
     }
 
-    function updatePlayer() {
-      if (keys['ArrowLeft'] && player.x > 0) {
-        player.x -= player.speed;
-      }
-      if (keys['ArrowRight'] && player.x < canvas.width - player.width) {
-        player.x += player.speed;
-      }
-    }
 
     function drawBullets() {
       bullets.forEach(bullet => {
