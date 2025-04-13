@@ -125,13 +125,14 @@ function updatePlayer() {
     const backgroundImage = new Image();
     backgroundImage.src = '배경화면.jpg';
 
-    const player = {
-      x: canvas.width / 2 - 25,
-      y: canvas.height - 70,
-      width: 50,
-      height: 50,
-      speed: 5
-    };
+const player = {
+  x: canvas.width / 2 - 25,
+  y: canvas.height - 150, // 기존보다 더 위에서 시작
+  width: 50,
+  height: 50,
+  speed: 5
+};
+
 
     const bullets = [];
     const enemies = [];
